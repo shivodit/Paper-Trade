@@ -1,4 +1,3 @@
-Sure, here's a GitHub description for a Java application called "Paper Trade" that simulates stock trading using SQL and MySQL:
 
 ---
 
