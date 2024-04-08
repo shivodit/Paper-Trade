@@ -1,0 +1,13 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "PaperTrade/lib/javafx.base.jar",
+        "PaperTrade/lib/javafx.controls.jar",
+        "PaperTrade/lib/javafx.fxml.jar",
+        "PaperTrade/lib/javafx.graphics.jar",
+        "PaperTrade/lib/javafx.media.jar",
+        "PaperTrade/lib/javafx.swing.jar",
+        "PaperTrade/lib/javafx.web.jar",
+        "PaperTrade/lib/javafx-swt.jar"
+    ]
+}
