@@ -88,3 +88,6 @@ CREATE TABLE Takes (
     FOREIGN KEY (User_ID) REFERENCES User(User_ID),
     FOREIGN KEY (Tutorial_ID) REFERENCES Tutorial(Tutorial_ID)
 );
+
+use paper_trade;
+show tables;
