@@ -1,4 +1,4 @@
-package main.PaperTrade.db;
+package PaperTrade.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
