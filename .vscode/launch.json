@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "main.PaperTrade.Main",
+            "vmArgs": "--module-path C:\\Users\\vishn\\Documents\\cc\\dbs_project\\PaperTrade\\lib --add-modules javafx.controls,javafx.fxml -Dprism.order=sw",
+        }
+    ]
+}
