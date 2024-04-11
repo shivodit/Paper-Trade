@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
+import PaperTrade.Main;
 import PaperTrade.db.DatabaseConnection;
 import PaperTrade.models.Session;
 
@@ -24,9 +25,20 @@ public class LoginController{
     TextField password_textbox;
     @FXML
     Button login_button;
+    @FXML
+    Button register_button;
 
-    private Stage stage;
-
+    public void initialize() {
+        // Initialize the controller
+        // Add any initialization logic here
+        register_button.setOnMouseClicked(e -> {
+            try {
+                Main.getInstance().goToRegister();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
+    }
 
     public void login(String email, String password){
         ResultSet r = DatabaseConnection.getInstance().executeQuery("SELECT email FROM user WHERE email = '" + email + "' AND password = '" + password + "'");
@@ -58,27 +70,4 @@ public class LoginController{
         login(email, password);
     }
 
-    @FXML
-    private void goToLogin() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/login.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        LoginController l = loader.getController();
-        l.setStage(stage);
-    }
-
-    @FXML
-    private void goToRegister() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/register.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        LoginController l = loader.getController();
-        l.setStage(stage);
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }   
 }

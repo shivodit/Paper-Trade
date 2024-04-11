@@ -8,17 +8,19 @@ CREATE TABLE User (
     Balance DECIMAL(20,3) NOT NULL DEFAULT 100000,
     PRIMARY KEY (User_ID)
 );
+-- user populated
 
 CREATE TABLE Contact (
     User_ID INT NOT NULL,
     Phone_no VARCHAR(20) NOT NULL PRIMARY KEY,
     FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
-
+-- TODO populate contact
 CREATE TABLE Stock (
     Symbol VARCHAR(25) NOT NULL PRIMARY KEY,
-    Name VARCHAR(50) NOT NULL
+    Name VARCHAR(75) NOT NULL
 );
+-- stock populated
 
 CREATE TABLE StockOrder (
     Order_ID INT NOT NULL AUTO_INCREMENT UNIQUE,
@@ -34,6 +36,7 @@ CREATE TABLE StockOrder (
     FOREIGN KEY (User_ID) REFERENCES User(User_ID),
     FOREIGN KEY (Symbol) REFERENCES Stock(Symbol)
 );
+-- TODO populate stock order
 
 CREATE TABLE Stock_Price (
     Symbol VARCHAR(25) NOT NULL,
@@ -45,6 +48,7 @@ CREATE TABLE Stock_Price (
     PRIMARY KEY (Symbol, Timestamp),
     FOREIGN KEY (Symbol) REFERENCES Stock(Symbol)
 );
+-- TODO populate stock price
 
 CREATE TABLE Watchlist (
     User_ID INT NOT NULL,
@@ -53,6 +57,7 @@ CREATE TABLE Watchlist (
     PRIMARY KEY (Watchlist_ID),
     FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
+-- TODO populate watchlist
 
 CREATE TABLE Tutorial (
     Tutorial_ID INT NOT NULL AUTO_INCREMENT UNIQUE,
@@ -61,6 +66,7 @@ CREATE TABLE Tutorial (
     Description VARCHAR(600),
     PRIMARY KEY (Tutorial_ID)
 );
+-- TODO populate tutorial
 
 CREATE TABLE Holds (
     Symbol VARCHAR(25) NOT NULL,
@@ -71,6 +77,7 @@ CREATE TABLE Holds (
     FOREIGN KEY (Symbol) REFERENCES Stock(Symbol),
     FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
+-- TODO populate holds
 
 CREATE TABLE Tracks (
     Symbol VARCHAR(25) NOT NULL,
@@ -79,6 +86,7 @@ CREATE TABLE Tracks (
     FOREIGN KEY (Symbol) REFERENCES Stock(Symbol),
     FOREIGN KEY (Watchlist_ID) REFERENCES Watchlist(Watchlist_ID)
 );
+-- TODO populate tracks
 
 CREATE TABLE Takes (
     User_ID INT NOT NULL,
@@ -88,6 +96,8 @@ CREATE TABLE Takes (
     FOREIGN KEY (User_ID) REFERENCES User(User_ID),
     FOREIGN KEY (Tutorial_ID) REFERENCES Tutorial(Tutorial_ID)
 );
+-- TODO populate takes
+
 
 use paper_trade;
 show tables;

@@ -1,28 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PaperTrade.controllers.LoginController">
-   <children>
-      <Button fx:id="register" layoutX="219.0" layoutY="561.0" mnemonicParsing="false" text="Register" textFill="#227885" />
-      <Text fx:id="name" layoutX="191.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your name" />
-      <Text fx:id="dob" layoutX="206.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of birth" />
-      <Text fx:id="email" layoutX="186.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your email id" />
-      <Text fx:id="username" layoutX="212.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-      <Text fx:id="password1" layoutX="212.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set password" />
-      <Text fx:id="password2" layoutX="196.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm password" />
-      <TextField fx:id="inp_name" alignment="CENTER" layoutX="149.0" layoutY="89.0" prefWidth="200.0" />
-      <TextField fx:id="inp_email" layoutX="149.0" layoutY="165.0" prefWidth="200.0" />
-      <TextField fx:id="inp_username" layoutX="162.0" layoutY="318.0" prefWidth="200.0" />
-      <TextField fx:id="inp_password1" layoutX="162.0" layoutY="407.0" prefWidth="200.0" />
-      <TextField fx:id="inp_password2" layoutX="162.0" layoutY="488.0" prefWidth="200.0" />
-      <Button fx:id="back" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" onMouseClicked="#goToLogin" text="Back" />
-      <DatePicker fx:id="inp_dob" layoutX="147.0" layoutY="239.0" prefWidth="200.0" />
-      <StackPane prefHeight="150.0" prefWidth="200.0" />
-   </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PaperTrade.controllers.RegisterController">
+   <center>
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="539.0" prefWidth="420.0" spacing="10.0">
+         <children>
+            <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your name" />
+             <TextField fx:id="inp_name" prefHeight="31.0" prefWidth="339.0" />
+            <Text fx:id="email" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your email id" />
+             
+                        <TextField fx:id="inp_email" />
+            <Text fx:id="dob" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of birth" />
+            <DatePicker fx:id="inp_dob" prefHeight="31.0" prefWidth="383.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone number(s)" />
+            <HBox spacing="10.0">
+               <children>
+                  <ListView fx:id="inp_phone_no" editable="true" prefHeight="74.0" prefWidth="248.0" />
+                  <VBox alignment="CENTER" prefHeight="26.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="add_number_button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#addPhoneNumber" prefHeight="38.0" prefWidth="94.0" text="Add" />
+                        <Button fx:id="remove_number_button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#removePhoneNumber" prefHeight="38.0" prefWidth="94.0" text="Remove" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            
+                        <Text fx:id="password1" strokeType="OUTSIDE" strokeWidth="0.0" text="Set password" />
+            <PasswordField fx:id="inp_password1" />
+            <Text fx:id="password2" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm password" />
+            <PasswordField fx:id="inp_password2" />
+           
+                        <Button fx:id="register" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleRegisterButtonClick" text="Register" textAlignment="CENTER" textFill="#227885" />
+            
+                     </children>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </VBox>
+   </center>
+   <top>
+      <Button fx:id="back" alignment="CENTER" mnemonicParsing="false" text="Back" BorderPane.alignment="TOP_LEFT" />
+   </top>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</BorderPane>

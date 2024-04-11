@@ -14,7 +14,7 @@
       <TextField id="password_textbox" fx:id="password_textbox" alignment="CENTER" />
       <Button id="login_button" onMouseClicked="#handleLoginButtonAction" text="Login" textFill="#227885" />
       <Text text="No account?" />
-      <Button onMouseClicked="#goToRegister" text="Create new account" textFill="#227885" />
+      <Button fx:id="register_button" text="Create new account" textFill="#227885" />
    </children>
    <padding>
       <Insets bottom="50.0" left="100.0" right="100.0" top="50.0" />
