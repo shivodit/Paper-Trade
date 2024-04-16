@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox fx:id="navbar" alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="200.0" spacing="25.0" stylesheets="@../../resources/css/style.css">
+         <children>
+            <Label id="main_label" fx:id="home_button" style="-fx-cursor: hand;" text="Paper Trade" textAlignment="CENTER" textFill="#84a3bc">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="investments_button" alignment="CENTER" prefHeight="34.0" prefWidth="86.0" styleClass="clickable_label" stylesheets="@../../resources/css/style.css" text="Investments" />
+            <TextField fx:id="search_textfield" />
+            <Button fx:id="search_button" mnemonicParsing="false" text="Search" />
+            <Pane maxHeight="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+            <MenuButton fx:id="profile_dropdown" mnemonicParsing="false" prefHeight="26.0" prefWidth="77.0" text="Profile">
+               <items>
+                  <MenuItem fx:id="profile_button" mnemonicParsing="false" text="My Profile" />
+                  <MenuItem fx:id="orders_button" mnemonicParsing="false" text="Orders" />
+                  <MenuItem mnemonicParsing="false" text="Logout" />
+               </items>
+            </MenuButton>
+         </children>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </HBox>
+      <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label text="My Investments">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="\$ 10000">
+                           <font>
+                              <Font name="System Bold" size="34.0" />
+                           </font>
+                        </Label>
+                        <Label text="Current Value" textFill="#696969" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <Separator orientation="VERTICAL" prefHeight="200.0">
+                     <HBox.margin>
+                        <Insets left="40.0" right="20.0" />
+                     </HBox.margin>
+                  </Separator>
+                  <VBox>
+                     <children>
+                        <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Invested Value" />
+                              <Pane prefWidth="100.0" />
+                              <Label fx:id="invested_value_label" text="\$ 1000" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Total Returns" />
+                              <Pane prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                              <Label fx:id="total_return_label" text="\$ 1000" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="1D Returns" />
+                              <Pane prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                              <Label fx:id="one_d_return_label" text="\$ 1000" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </padding>
+      </VBox>
+   </children>
+</VBox>

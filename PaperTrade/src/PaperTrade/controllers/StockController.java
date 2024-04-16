@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,7 +20,6 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 
 public class StockController {  
     @FXML
@@ -68,6 +66,12 @@ public class StockController {
     private Label required_label;
     @FXML
     private Label balance_label;
+    @FXML
+    private Button sell_toggle;
+    @FXML
+    private Button buy_toggle;
+    @FXML
+    private Label curr_held_label;
 
     private float required_balance = 0f;
     private float price = 0f;
@@ -182,20 +186,38 @@ public class StockController {
             balance_label.setText("Balance available : ₹0");
         }
         
+        // setup current holdings
+        try {
+            ResultSet rs = DatabaseConnection.getInstance().executeQuery(
+                "SELECT quantity, avg_price FROM holds WHERE user_id = " + Session.getId() + " AND symbol = '" + stock_symbol + "';"
+            );
+            if (rs.next()) {
+                curr_held_label.setText("Currently holding : " + rs.getInt("quantity") + " shares at ₹" + rs.getFloat("avg_price"));
+            } else {
+                curr_held_label.setText("Currently holding : 0 shares");
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            curr_held_label.setText("Currently holding : 0 shares");
+        }
+
         // setup navbar
         Main.getInstance().setupNavbar(navbar);
         
         // initialize required
         updateRequired();
+        buyToggle();
         // toggle button setup
+        buy_toggle.setOnAction(e -> buyToggle());
+        sell_toggle.setOnAction(e -> sellToggle());
         price_type_toggle.setOnAction(e -> toggleMarketPrice());
+
         // price quantity update
         quantity_textfield.textProperty().addListener((observable, oldValue, newValue) -> updateRequired());
         price_textfield.textProperty().addListener((observable, oldValue, newValue) -> updateRequired());
-        // execute order
-
     }
-    
+
     @FXML
     private void showTable(int days){
         stock_chart.getData().clear();
@@ -205,8 +227,9 @@ public class StockController {
     void drawChart(LineChart<String, Number> chart, int days) {
         // Draw the chart
         chart.getXAxis().setLabel("Time");
+        chart.getXAxis().setTickLabelsVisible(false);
         NumberAxis YAxis = (NumberAxis) chart.getYAxis();
-        chart.getYAxis().setLabel("Price");
+        YAxis.setLabel("Price");
         YAxis.setAutoRanging(false);
         
         XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
@@ -288,6 +311,21 @@ public class StockController {
     }
 
     @FXML
+    private void buyToggle(){
+        execute_order_button.setOnAction(e->placeBuyOrder());
+        execute_order_button.setText("BUY");
+        buy_toggle.setId("toggle_button");
+        sell_toggle.setId("toggle_button_off");
+    }
+    
+    @FXML public void sellToggle(){
+        execute_order_button.setOnAction(e->placeSellOrder());
+        execute_order_button.setText("SELL");
+        buy_toggle.setId("toggle_button_off");
+        sell_toggle.setId("toggle_button");
+    }
+
+    @FXML
     private void placeBuyOrder(){
         if (required_balance == 0){
             return;
@@ -295,7 +333,7 @@ public class StockController {
         if (required_balance > 0){
             try {
                 ResultSet rs = DatabaseConnection.getInstance().executeQuery(
-                    "SELECT balance FROM user WHERE email = '" + Session.getUsername() + "';"
+                    "SELECT * FROM user WHERE email = '" + Session.getUsername() + "';"
                 );
                 if (rs.next()) {
                     float balance = rs.getFloat("balance");
@@ -311,15 +349,24 @@ public class StockController {
                         
                         if (price_type_toggle.getText().equals("Market")){
                             DatabaseConnection.getInstance().executeUpdate(
-                            "INSERT INTO orders (user_id, symbol, price, quantity, order_type, order_class, time, order_status) VALUES (" +
+                            "INSERT INTO  stock_order (user_id, symbol, price, quantity, order_type, order_class, time, order_status) VALUES (" +
                             Session.getId() + ", '" + stock_symbol + "', " + offered_price + ", " + quantity + ", 'buy', 'market', NOW() ,'executed');"
                             );
                             Session.addToHoldings(stock_symbol, quantity, offered_price);
+                            ResultSet rs1 = DatabaseConnection.getInstance().executeQuery(
+                                "SELECT * FROM holds WHERE user_id = " + Session.getId() + " AND symbol = '" + stock_symbol + "';"
+                            );
+                            if (rs1.next()){
+                                curr_held_label.setText("Currently holding : " + rs1.getInt("quantity") + " shares at ₹" + rs1.getFloat("avg_price"));
+                            }
+                            else{
+                                curr_held_label.setText("Currently holding : " + quantity + " shares at ₹" + offered_price);
+                            }
                         }
                         
                         else{
                             DatabaseConnection.getInstance().executeUpdate(
-                            "INSERT INTO orders (user_id, symbol, price, quantity, order_type, order_class, time, order_status) VALUES (" +
+                            "INSERT INTO  stock_order (user_id, symbol, price, quantity, order_type, order_class, time, order_status) VALUES (" +
                             Session.getId() + ", '" + stock_symbol + "', " + offered_price + ", " + quantity + ", 'buy', 'limit', NOW() ,'active');"
                             );
                         }
@@ -328,11 +375,11 @@ public class StockController {
                             "UPDATE user SET balance = balance - " + required_balance + " WHERE email = '" + Session.getUsername() + "';"
                         );
                         balance_label.setText("Balance available : ₹" + (balance - required_balance));
-                        
+
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Order Placed!");
                         alert.setHeaderText("Your order for " + quantity + " shares of " + stock_name + " has been placed successfully!");
-                        alert.setContentText("It show up in you Investments as soon as it is executed.");
+                        alert.setContentText("It'll show up in you Investments as soon as it is executed.");
                         alert.showAndWait();
                         return;
                     }
@@ -348,37 +395,67 @@ public class StockController {
 
     @FXML
     private void placeSellOrder(){
-        if (required_balance > 0){
-            try {
-                ResultSet rs = DatabaseConnection.getInstance().executeQuery(
-                    "SELECT balance FROM user WHERE email = '" + Session.getUsername() + "';"
-                );
-                if (rs.next()) {
-                    float balance = rs.getFloat("balance");
-                    if (balance < required_balance){
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Balance isn't enough!");
-                        alert.setHeaderText("Oops, You're not rich enough!");
-                        alert.setContentText("Please add more funds to your account to place this order.");
-                        alert.showAndWait();
-                        return;
-                    }
-                    else{
-                        DatabaseConnection.getInstance().executeUpdate(
-                            "INSERT INTO orders (user_id, symbol, price, quantity, type) VALUES (" +
-                            Session.getId() + ", '" + stock_symbol + "', " + offered_price + ", " + quantity + ", 'sell');"
-                        );
-                        DatabaseConnection.getInstance().executeUpdate(
-                            "UPDATE user SET balance = balance - " + required_balance + " WHERE email = '" + Session.getUsername() + "';"
-                        );
-                        balance_label.setText("Balance available : ₹" + (balance - required_balance));
-                    }
-                } else {
-                    System.out.println("User not found");
+        int quantity_held = 0;
+        ResultSet rs = DatabaseConnection.getInstance().executeQuery(
+            "SELECT * FROM holds WHERE user_id = " + Session.getId() + " AND symbol = '" + stock_symbol + "';"
+        );
+        try {
+            if (rs.next()){
+                quantity_held = rs.getInt("quantity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (quantity_held == 0){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No shares to sell!");
+            alert.setHeaderText("Oops, You don't have any shares to sell!");
+            alert.setContentText("Please buy some shares first to place a sell order.");
+            alert.showAndWait();
+            return;
+        }
+        else{
+            if (quantity_held<quantity){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Not enough shares to sell!");
+                alert.setHeaderText("Not enough shares to place your order!");
+                alert.setContentText("Please buy more shares first to place a sell order.");
+                alert.showAndWait();
+                return;
+            }
+            else{
+                if (price_type_toggle.getText().equals("Market")){
+                    DatabaseConnection.getInstance().executeUpdate(
+                    "INSERT INTO  stock_order (user_id, symbol, price, quantity, order_type, order_class, time, order_status) VALUES (" +
+                    Session.getId() + ", '" + stock_symbol + "', " + offered_price + ", " + quantity + ", 'sell', 'market', NOW() ,'executed');"
+                    );
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+
+                else{
+                    DatabaseConnection.getInstance().executeUpdate(
+                    "INSERT INTO  stock_order (user_id, symbol, price, quantity, order_type, order_class, time, order_status) VALUES (" +
+                    Session.getId() + ", '" + stock_symbol + "', " + offered_price + ", " + quantity + ", 'sell', 'limit', NOW() ,'active');"
+                    );
+                }
+                Session.removeFromHoldings(stock_symbol, quantity, offered_price);
+                try {
+                    curr_held_label.setText("Currently holding : " + (quantity_held - quantity) + " shares at ₹" + rs.getFloat("avg_price"));
+                    balance_label.setText("Balance available : ₹" + (
+                       Float.parseFloat(balance_label.getText().substring(21, balance_label.getText().length())) + required_balance));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    curr_held_label.setText("Currently holding : " + (quantity_held - quantity) + " shares");
+                    
+                }
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sell Order Placed!");
+                alert.setHeaderText("Your sell order for " + quantity + " shares of " + stock_name + " has been placed successfully!");
+                alert.setContentText("You'll recieve the money as soon as it executes");
+                alert.showAndWait();
+                return;
             }
         }
+
     }
 }

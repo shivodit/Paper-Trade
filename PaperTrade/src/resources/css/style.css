@@ -33,6 +33,7 @@
 /* Style for clickable label with class clickable_label */
 .clickable_label {
     -fx-text-fill: #040404; /* Blue text color */
+    -fx-background-color: transparent; /* Transparent background */
     /* -fx-underline: true; Underline the text */
     -fx-cursor: hand; /* Change cursor to hand when hovering over the text */
     -fx-transition: 0.3s;
@@ -49,3 +50,46 @@
 #main_label:hover{
     -fx-text-fill: #0d8eff; /* Darken the text color when hovering over the text */
 }
+
+#toggle_button{
+    -fx-background-color: #0099ff;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 1.2em;
+    -fx-padding: 0 20 0 20;
+    -fx-border-radius: 5;
+    -fx-border-color: #0099ff;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-transition: 0.3s;
+}
+
+#toggle_button_off{
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #0099ff;
+    -fx-font-size: 1.2em;
+    -fx-padding: 0 20 0 20;
+    -fx-border-radius: 5;
+    -fx-border-color: #0099ff;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-transition: 0.3s;
+}
+
+#execute_button{
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #0099ff;
+    -fx-font-size: 1.2em;
+    -fx-border-color: #0099ff;
+    -fx-border-width: 2;
+    -fx-cursor: hand;
+    -fx-transition: 0.7s;
+    -fx-padding: 10 20 10 20;
+    -fx-margin: 10 10 10 10;
+}
+
+#execute_button:hover{
+    -fx-background-color: #0099ff;
+    -fx-text-fill: #ffffff;
+    -fx-transition: 0.7s;
+}
+

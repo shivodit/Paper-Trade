@@ -1,7 +1,6 @@
 package PaperTrade;
 
 import java.io.IOException;
-import java.util.Observable;
 
 import javafx.scene.Node;
 import javafx.application.Application;
@@ -15,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import PaperTrade.controllers.LoginController;
 import PaperTrade.controllers.RegisterController;
+import PaperTrade.models.Session;
 
 public class Main extends Application {
     Stage stage;
@@ -40,6 +40,12 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Welcome to Paper Trade");
         primaryStage.show();
+        primaryStage.centerOnScreen();
+
+        // fast login for testing TEST 
+        Session.loginUsername("Emma.Smith@gmail.com", 1);
+        goToHome();
+        
     }
 
     @FXML
@@ -122,6 +128,16 @@ public class Main extends Application {
         System.out.println("Going to orders");
     }
 
+    @FXML
+    public void logout(){
+        Session.logoutUsername();
+        try {
+            goToLogin();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setupNavbar(HBox navbar) {
         ObservableList<Node> l = navbar.getChildren();
         // setup home button 
@@ -166,7 +182,12 @@ public class Main extends Application {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        }); 
+        });
+        
+        profile_dropdown.get(2).setOnAction(e->{
+            logout();
+        });
+
     }
 
     public static void main(String[] args) {

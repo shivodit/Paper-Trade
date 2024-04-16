@@ -1,18 +1,13 @@
 package PaperTrade.controllers;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import PaperTrade.Main;
 import PaperTrade.db.DatabaseConnection;
@@ -43,7 +38,6 @@ public class LoginController{
 
     public void login(String email, String password){
         ResultSet r = DatabaseConnection.getInstance().executeQuery("SELECT email FROM user WHERE email = '" + email + "' AND password = '" + password + "'");
-        
         try {
             if (r.next()){
                 // login 
