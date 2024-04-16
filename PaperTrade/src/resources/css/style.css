@@ -1,0 +1,51 @@
+/* Style for the entire tab pane */
+.tab-pane {
+    -fx-opacity: 0.9; /* Making the entire TabPane slightly transparent */
+}
+
+/* Style for the tabs */
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent; /* Transparent background for the tab bar */
+}
+
+.tab-pane .tab {
+    -fx-background-color: #ccc; /* Light gray background for each tab */
+    -fx-opacity: 0.8; /* Semi-transparent tabs */
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #fff; /* White background for the selected tab */
+    -fx-opacity: 1; /* Fully opaque for selected tab */
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #666; /* Dark gray text color for unselected tabs */
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #000; /* Black text for selected tab */
+}
+
+.tab{
+    -fx-padding: 5 20 5 20;
+}
+
+/* Style for clickable label with class clickable_label */
+.clickable_label {
+    -fx-text-fill: #040404; /* Blue text color */
+    /* -fx-underline: true; Underline the text */
+    -fx-cursor: hand; /* Change cursor to hand when hovering over the text */
+    -fx-transition: 0.3s;
+}
+.clickable_label:hover{
+    -fx-text-fill: #0099ff; /* Darken the text color when hovering over the text */
+    -fx-background-color: #ffffff; /* Light gray background when hovering over the text */
+}
+
+#main_label{
+    -fx-transition: 0.3s;
+    -fx-text-fill: #00294e
+}
+#main_label:hover{
+    -fx-text-fill: #0d8eff; /* Darken the text color when hovering over the text */
+}

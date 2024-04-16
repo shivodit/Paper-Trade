@@ -1,0 +1,30 @@
+    /* chart.css */
+
+    .chart-line {
+        -fx-stroke: #8d964a; /* Change the color of the lines */
+    }
+
+    .chart-plot-background {
+        -fx-background-color: #f0f0f0; /* Change the background color of the plot area */
+    }
+
+    .chart-vertical-grid-lines {
+        -fx-stroke: transparent; /* Make the vertical grid lines invisible */
+    }
+
+    .chart-horizontal-grid-lines {
+        -fx-stroke: transparent; /* Make the horizontal grid lines invisible */
+    }
+
+    /* Style the axes */
+    .chart-axis {
+        -fx-stroke: #000000; /* Change the color of the axes */
+    }
+
+    .chart-axis-label {
+        -fx-font-size: 12px; /* Change the font size of the axis labels */
+    }
+
+    .chart-title {
+        -fx-font-size: 16px; /* Change the font size of the chart title */
+    }

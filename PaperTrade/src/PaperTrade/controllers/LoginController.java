@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
@@ -22,7 +23,7 @@ public class LoginController{
     @FXML
     TextField email_textbox;
     @FXML
-    TextField password_textbox;
+    PasswordField password_textbox;
     @FXML
     Button login_button;
     @FXML
@@ -46,8 +47,9 @@ public class LoginController{
         try {
             if (r.next()){
                 // login 
-                Session.loginUsername(r.getString("Email"));
-
+                Session.loginUsername(r.getString("Email"),r.getInt("user_id"));
+                System.out.println("Logged in as " + r.getString("Email"));
+                Main.getInstance().goToHome();
             }
             else{
                 // wrong username password
