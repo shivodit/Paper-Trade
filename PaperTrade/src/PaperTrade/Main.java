@@ -1,19 +1,25 @@
 package PaperTrade;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 
 import javafx.scene.Node;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import PaperTrade.controllers.LoginController;
 import PaperTrade.controllers.RegisterController;
+import PaperTrade.db.DatabaseConnection;
 import PaperTrade.models.Session;
 
 public class Main extends Application {
@@ -83,12 +89,11 @@ public class Main extends Application {
 
     @FXML
     public void goToInvestments() throws IOException {
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/investments.fxml"));
-        // Parent root = loader.load();
-        // Scene scene = new Scene(root);
-        // stage.setScene(scene);
-        // stage.centerOnScreen();
-        System.out.println("Going to investments");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/investments.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.centerOnScreen();
     }
 
     @FXML
@@ -99,13 +104,35 @@ public class Main extends Application {
         // stage.setScene(scene);
         // stage.centerOnScreen();
         System.out.println("Going to home");
-        openStock("RELIANCE");
+        openStock("TATAPOWER");
     }
 
     @FXML
-    public void search(Node search_box) throws IOException {
+    public void search(Node search_box_node) throws IOException {
+        TextField search_box = (TextField)search_box_node;
         String search_string = ((javafx.scene.control.TextField)search_box).getText();
-        System.out.println("Searching for: " + search_string);
+        ContextMenu contextMenu = new ContextMenu();
+        try{
+            String s = "SELECT * FROM stock WHERE symbol LIKE '%" + search_string + "%' OR name LIKE '%" + search_string + "%'";
+            ResultSet rs = DatabaseConnection.getInstance().executeQuery(s);
+            while (rs.next()){
+                String symbol = rs.getString("symbol");
+                MenuItem item = new MenuItem(rs.getString("name") + " (" + symbol + ")");
+                item.setOnAction(e -> {
+                    try {
+                        openStock(symbol);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                contextMenu.getItems().add(item);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        Point2D p = search_box_node.localToScreen(search_box_node.getLayoutBounds().getMinX(), search_box_node.getLayoutBounds().getMaxY());
+        contextMenu.show(search_box_node, p.getX() , p.getY());
     }
 
     @FXML
@@ -158,9 +185,9 @@ public class Main extends Application {
         });
 
         // setup search button
-        l.get(3).setOnMouseClicked(e->{
+        l.get(4).setOnMouseClicked(e->{
             try {
-                search(l.get(2));
+                search(l.get(3));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

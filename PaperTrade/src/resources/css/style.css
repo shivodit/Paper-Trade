@@ -93,3 +93,25 @@
     -fx-transition: 0.7s;
 }
 
+#v_handler_investments{
+    -fx-background-color: inherit;
+    -fx-font-size: 1.2em;
+    -fx-cursor: hand;
+    -fx-transition: 0.7s;
+    -fx-padding: 10 20 10 20;
+    -fx-margin: 10 10 10 10;
+}
+
+#h_handler_investments{
+    -fx-background-color: #ffffff;
+    -fx-font-size: 1.2em;
+    -fx-cursor: hand;
+    -fx-transition: 0.7s;
+    -fx-padding: 10 20 10 20;
+    -fx-margin: 10 10 10 10;
+}
+#h_handler_investments:hover{
+    -fx-background-color: #b4b4b4;
+    -fx-text-fill: #dcdcdc;
+    -fx-transition: 0.7s;
+}

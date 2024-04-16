@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
@@ -12,8 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../../resources/css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PaperTrade.controllers.InvestmentController">
    <children>
       <HBox fx:id="navbar" alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="200.0" spacing="25.0" stylesheets="@../../resources/css/style.css">
          <children>
@@ -23,9 +23,9 @@
                </font>
             </Label>
             <Label fx:id="investments_button" alignment="CENTER" prefHeight="34.0" prefWidth="86.0" styleClass="clickable_label" stylesheets="@../../resources/css/style.css" text="Investments" />
+            <Pane maxHeight="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
             <TextField fx:id="search_textfield" />
             <Button fx:id="search_button" mnemonicParsing="false" text="Search" />
-            <Pane maxHeight="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
             <MenuButton fx:id="profile_dropdown" mnemonicParsing="false" prefHeight="26.0" prefWidth="77.0" text="Profile">
                <items>
                   <MenuItem fx:id="profile_button" mnemonicParsing="false" text="My Profile" />
@@ -49,10 +49,13 @@
                <children>
                   <VBox alignment="CENTER_LEFT">
                      <children>
-                        <Label text="\$ 10000">
+                        <Label fx:id="curr_value_label" text="\$ 10000">
                            <font>
                               <Font name="System Bold" size="34.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                         </Label>
                         <Label text="Current Value" textFill="#696969" />
                      </children>
@@ -104,6 +107,11 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
+            <ScrollPane fitToWidth="true" hvalue="1.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="investments_list" accessibleRole="SCROLL_PANE" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+               </content>
+            </ScrollPane>
          </children>
          <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

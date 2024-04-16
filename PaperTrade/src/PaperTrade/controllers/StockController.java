@@ -108,42 +108,17 @@ public class StockController {
         
         // Fetch the price of the stock from the database
         // TODO live price fetching
-        try {
-            ResultSet rs = DatabaseConnection.getInstance().executeQuery(
-                "Select close, timestamp, symbol from stock_price where symbol = '" + stock_symbol + 
-                "' order by timestamp desc LIMIT 1;"
-            );
-            if (rs.next()) {
-                price = rs.getFloat("close");
-            } else {
-                price = 0;
-            }
-            rs = DatabaseConnection.getInstance().executeQuery(
-                "SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference " +
-                "FROM (SELECT Close FROM stock_price WHERE Symbol = '"+stock_symbol+"' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price "+
-                "WHERE Symbol = '"+stock_symbol+"' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = '"+stock_symbol+"'))) AS first_entry,"+
-                "(SELECT Close FROM stock_price WHERE Symbol = '"+stock_symbol+"' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price "+
-                "WHERE Symbol = '"+stock_symbol+"' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = '"+stock_symbol+"'))) AS last_entry;"
-
-            );
-            if (rs.next()) {
-                float priceDifference = rs.getFloat("PriceDifference");
-                if (priceDifference > 0) {
-                    profit_label.setText("+₹" + Math.abs(priceDifference)+" ("+Math.round(priceDifference/price*10000)/100f+"%)");
-                    profit_label.setStyle("-fx-text-fill: #00cc00;");
-                } else {
-                    profit_label.setText("-₹" + Math.abs(priceDifference)+" ("+Math.round(priceDifference/price*10000)/100f+"%)");
-                    profit_label.setStyle("-fx-text-fill: red;");
-                }
-            } else {
-                profit_label.setText("profit/loss not available");
-            }
-            
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            price = 0;
+        price = Session.getMarketPrice(stock_symbol);
+        float priceDifference = Session.get1DayChange(stock_symbol);
+        
+        if (priceDifference > 0) {
+            profit_label.setText("+₹" + Math.abs(priceDifference)+" ("+Math.round(priceDifference/price*10000)/100f+"%)");
+            profit_label.setStyle("-fx-text-fill: #00cc00;");
+        } else {
+            profit_label.setText("-₹" + Math.abs(priceDifference)+" ("+Math.round(priceDifference/price*10000)/100f+"%)");
+            profit_label.setStyle("-fx-text-fill: red;");
         }
+
         price_label.setText("₹ "+price);
         stock_buy_price.setText("₹ "+price);
 
