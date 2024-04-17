@@ -193,6 +193,34 @@ public class StockController {
         price_textfield.textProperty().addListener((observable, oldValue, newValue) -> updateRequired());
     }
 
+    private String getQueryAccToDays(int days){
+        String decide;
+        if (days == 1){
+            decide = "AND MINUTE(Timestamp)%2 = 0 "; 
+        }
+        else if (days < 7){
+            decide = "AND MINUTE(Timestamp) IN (0,15,30,45) ";
+        }
+        else if (days < 91){
+            decide = "AND HOUR(Timestamp)%2 = 0 AND MINUTE(Timestamp) in (0,30) ";
+        }
+        else if (days < 181){
+            decide = "AND HOUR(Timestamp)%2 = 0 AND MINUTE(Timestamp) = 0 ";
+        }
+        else if (days < 366){
+            decide = "AND HOUR(Timestamp) = 0  AND MINUTE(Timestamp) = 0 ";
+        }
+        else {
+            decide = "AND DAY(Timestamp)%2 = 0 AND HOUR(Timestamp) = 0 AND MINUTE(Timestamp) = 0 ";
+        }
+        return "SELECT Symbol, Timestamp, Close " +
+        "FROM stock_price " +
+        "WHERE Timestamp >= DATE_SUB(NOW(), INTERVAL " + days + " DAY) " +
+        decide +
+        "AND Symbol = '" + stock_symbol + "' "+
+        "ORDER BY Timestamp asc;";
+    }
+
     @FXML
     private void showTable(int days){
         stock_chart.getData().clear();
@@ -211,12 +239,7 @@ public class StockController {
         ObservableList<XYChart.Data<String, Number>> dataList = FXCollections.observableArrayList();
         // Fetch the data from the database
         ResultSet rs = DatabaseConnection.getInstance().executeQuery(
-            "SELECT Symbol, Timestamp, Close " +
-            "FROM stock_price " +
-            "WHERE Timestamp >= DATE_SUB(NOW(), INTERVAL " + days + " DAY) " +
-            "AND HOUR(Timestamp) IN (10,12,14) AND MINUTE(Timestamp) IN (0,30) " +
-            "AND Symbol = '" + stock_symbol + "' "+
-            "ORDER BY Timestamp asc;"
+            getQueryAccToDays(days)
         );
         // Add the data to the chart
         float min= 100000000f, max= 0;

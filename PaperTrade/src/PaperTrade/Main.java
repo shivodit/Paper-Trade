@@ -15,7 +15,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import PaperTrade.controllers.LoginController;
 import PaperTrade.controllers.RegisterController;
@@ -98,13 +97,12 @@ public class Main extends Application {
 
     @FXML
     public void goToHome() throws IOException {
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/home.fxml"));
-        // Parent root = loader.load();
-        // Scene scene = new Scene(root);
-        // stage.setScene(scene);
-        // stage.centerOnScreen();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/home.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.centerOnScreen();
         System.out.println("Going to home");
-        openStock("TATAPOWER");
     }
 
     @FXML
@@ -147,14 +145,21 @@ public class Main extends Application {
 
     @FXML
     public void goToOrders() throws IOException {
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/orders.fxml"));
-        // Parent root = loader.load();
-        // Scene scene = new Scene(root);
-        // stage.setScene(scene);
-        // stage.centerOnScreen();
-        System.out.println("Going to orders");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/orders.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.centerOnScreen();
     }
 
+    @FXML
+    public void goToWatclist() {
+        System.out.println("Going to watchlist");
+    }
+    @FXML
+    public void goToTutorial() {
+        System.out.println("Going to tutorial");
+    }
     @FXML
     public void logout(){
         Session.logoutUsername();
@@ -212,6 +217,12 @@ public class Main extends Application {
         });
         
         profile_dropdown.get(2).setOnAction(e->{
+            goToWatclist();
+        });
+        profile_dropdown.get(3).setOnAction(e->{
+            goToTutorial();
+        });
+        profile_dropdown.get(4).setOnAction(e->{
             logout();
         });
 

@@ -3,18 +3,20 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../resources/css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PaperTrade.controllers.HomeController">
    <children>
-      <HBox fx:id="navbar" alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="200.0" spacing="25.0" stylesheets="@../../resources/css/style.css">
+      <HBox fx:id="navbar" alignment="CENTER_LEFT" maxHeight="75.0" minHeight="75.0" prefHeight="75.0" prefWidth="200.0" spacing="25.0" stylesheets="@../../resources/css/style.css">
          <children>
             <Label id="main_label" fx:id="home_button" style="-fx-cursor: hand;" text="Paper Trade" textAlignment="CENTER" textFill="#84a3bc">
                <font>
@@ -29,13 +31,102 @@
                <items>
                   <MenuItem fx:id="profile_button" mnemonicParsing="false" text="My Profile" />
                   <MenuItem fx:id="orders_button" mnemonicParsing="false" text="Orders" />
-                  <MenuItem mnemonicParsing="false" text="Logout" />
+                  <MenuItem mnemonicParsing="false" text="Watchlist" />
+                  <MenuItem fx:id="orders_button1" mnemonicParsing="false" text="Tutorial" />
+                  <MenuItem fx:id="orders_button2" mnemonicParsing="false" text="Logout" />
                </items>
             </MenuButton>
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />
          </padding>
+      </HBox>
+      <HBox prefWidth="600.0">
+         <children>
+            <SplitPane dividerPositions="0.7" prefWidth="1000.0" HBox.hgrow="ALWAYS">
+              <items>
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" SplitPane.resizableWithParent="false">
+                     <content>
+                        <VBox>
+                           <children>
+                              <Label text="Top Gainers">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="10.0" />
+                                 </padding>
+                              </Label>
+                              <ScrollPane prefHeight="150.0" style="-fx-background-color: transparent;">
+                                 <content>
+                                    <HBox fx:id="top_gainers" spacing="15.0">
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </content>
+                              </ScrollPane>
+                              <Label text="Top Losers">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="10.0" />
+                                 </padding>
+                              </Label>
+                              <ScrollPane prefHeight="150.0" style="-fx-background-color: transparent;">
+                                 <content>
+                                    <HBox fx:id="top_losers" spacing="15.0">
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </content>
+                              </ScrollPane>
+                              <Label text="All Stocks">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="20.0" right="10.0" />
+                                 </padding>
+                              </Label>
+                              <VBox fx:id="all_stocks" spacing="15.0" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </ScrollPane>
+                  <VBox prefWidth="200.0" spacing="25.0" SplitPane.resizableWithParent="false">
+                     <children>
+                        <Label text="Watchlists">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ListView fx:id="watchlist" prefHeight="240.0" />
+                        <Label text="Watch tutorials">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </VBox>
+              </items>
+            </SplitPane>
+         </children>
       </HBox>
    </children>
 </VBox>

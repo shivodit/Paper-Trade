@@ -102,13 +102,14 @@ public class Session {
     }
 
     public static float get1DayChange(String stock_symbol){
+        String s = "SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference " +
+        "FROM (SELECT Close FROM stock_price WHERE Symbol = '"+stock_symbol+"' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price "+
+        "WHERE Symbol = '"+stock_symbol+"' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = '"+stock_symbol+"'))) AS first_entry,"+
+        "(SELECT Close FROM stock_price WHERE Symbol = '"+stock_symbol+"' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price "+
+        "WHERE Symbol = '"+stock_symbol+"' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = '"+stock_symbol+"'))) AS last_entry;";
+        System.out.println(s);
         ResultSet rs = DatabaseConnection.getInstance().executeQuery(
-            "SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference " +
-            "FROM (SELECT Close FROM stock_price WHERE Symbol = '"+stock_symbol+"' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price "+
-            "WHERE Symbol = '"+stock_symbol+"' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = '"+stock_symbol+"'))) AS first_entry,"+
-            "(SELECT Close FROM stock_price WHERE Symbol = '"+stock_symbol+"' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price "+
-            "WHERE Symbol = '"+stock_symbol+"' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = '"+stock_symbol+"'))) AS last_entry;"
-
+            s
         );
         try {
             if (rs.next()) {

@@ -115,3 +115,38 @@
     -fx-text-fill: #dcdcdc;
     -fx-transition: 0.7s;
 }
+
+.stock_hbox{
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d8d8d8;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-padding: 10 10 10 10;
+    -fx-margin: 10 10 10 10;
+}
+.stock_hbox:hover{
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #d8d8d8;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-padding: 10 10 10 10;
+    -fx-margin: 10 10 10 10;
+}
+
+.stock_vbox{
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d8d8d8;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-padding: 10 10 10 10;
+    -fx-margin: 10 10 10 10;
+}
+.stock_vbox:hover{
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #d8d8d8;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-padding: 10 10 10 10;
+    -fx-margin: 10 10 10 10;
+}
+

@@ -149,7 +149,6 @@ public class RegisterController {
         }
         System.out.println("User registered successfully");
     }
-    
 
     @FXML 
     private void addPhoneNumber(MouseEvent event) {

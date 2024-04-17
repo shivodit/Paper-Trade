@@ -34,7 +34,9 @@
               <items>
                 <MenuItem fx:id="profile_button" mnemonicParsing="false" text="My Profile" />
                 <MenuItem fx:id="orders_button" mnemonicParsing="false" text="Orders" />
-                  <MenuItem mnemonicParsing="false" text="Logout" />
+                  <MenuItem mnemonicParsing="false" text="Watchlist" />
+                  <MenuItem fx:id="orders_button1" mnemonicParsing="false" text="Tutorial" />
+                  <MenuItem fx:id="orders_button2" mnemonicParsing="false" text="Logout" />
               </items>
             </MenuButton>
          </children>
