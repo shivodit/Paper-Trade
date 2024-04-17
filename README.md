@@ -6,7 +6,6 @@
 Paper Trade is a Java application that simulates stock trading, allowing users to practice trading strategies without risking real money. The application uses SQL and MySQL to store and manage stock data, user portfolios, and transaction history.
 
 ## Features
-- Real-time stock data retrieval
 - User-friendly interface for buying and selling stocks
 - Portfolio management to track stock holdings and performance
 - Transaction history for reviewing past trades
@@ -20,8 +19,8 @@ Paper Trade is a Java application that simulates stock trading, allowing users t
 
 ## Setup (TODO : INCOMPLETE)
 1. Clone the repository: `git clone https://github.com/shivodit/Paper-Trade.git`
-2. Set up MySQL and create a database for the application
-3. Configure the database connection in the application
+2. Set up MySQL and create a database for the application called paper_trade 
+3. Configure the database connection in the application (Edit the DatabaseConnection class in src/PaperTrade/db to have your correct credentials
 4. Run the application and start trading!
 
 ## Usage
