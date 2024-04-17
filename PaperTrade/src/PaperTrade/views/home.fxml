@@ -110,14 +110,17 @@
                      <children>
                         <Label text="Watchlists">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <ListView fx:id="watchlist" prefHeight="240.0" />
-                        <Label text="Watch tutorials">
+                        <Label fx:id="tutorial" style="-fx-border-width: 2; -fx-border-color: black;" styleClass="clickable_label" stylesheets="@../../resources/css/style.css" text="Watch tutorials">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
+                           <padding>
+                              <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                           </padding>
                         </Label>
                      </children>
                      <padding>

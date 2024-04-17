@@ -18,7 +18,7 @@ CREATE TABLE Contact (
 -- TODO populate contact
 CREATE TABLE Stock (
     Symbol VARCHAR(25) NOT NULL PRIMARY KEY,
-    Name VARCHAR(75) NOT NULL
+    Name VARCHAR(100) NOT NULL
 );
 -- stock populated
 
@@ -62,7 +62,7 @@ CREATE TABLE Watchlist (
 CREATE TABLE Tutorial (
     Tutorial_ID INT NOT NULL AUTO_INCREMENT UNIQUE,
     Hyperlink VARCHAR(255) NOT NULL,
-    Title VARCHAR(50) NOT NULL,
+    Title VARCHAR(255) NOT NULL,
     Description VARCHAR(600),
     PRIMARY KEY (Tutorial_ID)
 );

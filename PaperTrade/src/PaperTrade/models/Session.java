@@ -107,10 +107,16 @@ public class Session {
         "WHERE Symbol = '"+stock_symbol+"' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = '"+stock_symbol+"'))) AS first_entry,"+
         "(SELECT Close FROM stock_price WHERE Symbol = '"+stock_symbol+"' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price "+
         "WHERE Symbol = '"+stock_symbol+"' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = '"+stock_symbol+"'))) AS last_entry;";
-        System.out.println(s);
         ResultSet rs = DatabaseConnection.getInstance().executeQuery(
             s
         );
+        // String s = "SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference " +
+        //    "FROM (SELECT Close FROM stock_price WHERE Symbol = '"+stock_symbol+"' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price "+
+        //    "WHERE Symbol = '"+stock_symbol+"' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = '"+stock_symbol+"' - INTERVAL 1 DAY))) AS first_entry, "+
+        //    "(SELECT Close FROM stock_price WHERE Symbol = '"+stock_symbol+"' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price "+
+        //    "WHERE Symbol = '"+stock_symbol+"' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = '"+stock_symbol+"'))) AS last_entry;";
+        // ResultSet rs = DatabaseConnection.getInstance().executeQuery(s);
+
         try {
             if (rs.next()) {
                 float priceDifference = rs.getFloat("PriceDifference");

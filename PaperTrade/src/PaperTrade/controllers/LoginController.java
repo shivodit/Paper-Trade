@@ -37,7 +37,7 @@ public class LoginController{
     }
 
     public void login(String email, String password){
-        ResultSet r = DatabaseConnection.getInstance().executeQuery("SELECT email FROM user WHERE email = '" + email + "' AND password = '" + password + "'");
+        ResultSet r = DatabaseConnection.getInstance().executeQuery("SELECT * FROM user WHERE email = '" + email + "' AND password = '" + password + "'");
         try {
             if (r.next()){
                 // login 

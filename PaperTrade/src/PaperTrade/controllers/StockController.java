@@ -10,11 +10,13 @@ import PaperTrade.models.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -72,6 +74,8 @@ public class StockController {
     private Button buy_toggle;
     @FXML
     private Label curr_held_label;
+    @FXML 
+    private Button add_to_watchlist;
 
     private float required_balance = 0f;
     private float price = 0f;
@@ -102,6 +106,9 @@ public class StockController {
     public void initialize() {
         // Initialize the controller
         // Add any initialization logic here
+        add_to_watchlist.setOnMouseClicked(e->{
+            showWatchLists();
+        });
         stock_name_label.setText(stock_name);
         stock_name_label_buy.setText(stock_name);
         symbol_label.setText(stock_symbol);
@@ -456,4 +463,39 @@ public class StockController {
         }
 
     }
+
+    @FXML private void showWatchLists(){
+        // Add the stock to the watchlist
+        ContextMenu contextMenu = new ContextMenu();
+        try{
+            String s = "SELECT * FROM watchlist WHERE user_id = " + Session.getId()+";";
+            ResultSet rs = DatabaseConnection.getInstance().executeQuery(s);
+            while (rs.next()){
+                int watchlist_id = rs.getInt("watchlist_id");
+                MenuItem item = new MenuItem(rs.getString("list_name"));
+                item.setOnAction(e -> {
+                    try {
+                        String st = "INSERT IGNORE INTO tracks (watchlist_id, symbol) VALUES (" + watchlist_id + ", '" + stock_symbol + "');";
+                        DatabaseConnection.getInstance().executeUpdate(
+                            st
+                        );
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Stock added to watchlist!");
+                        alert.setHeaderText("Stock added to watchlist successfully!");
+                        alert.setContentText("You can view it in your watchlist now.");
+                        alert.showAndWait();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                contextMenu.getItems().add(item);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        Point2D p = add_to_watchlist.localToScreen(add_to_watchlist.getLayoutBounds().getMinX(), add_to_watchlist.getLayoutBounds().getMaxY());
+        contextMenu.show(add_to_watchlist, p.getX() , p.getY());
+        
+    } 
 }

@@ -36,7 +36,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("views/login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/login.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         
@@ -48,9 +48,8 @@ public class Main extends Application {
         primaryStage.centerOnScreen();
 
         // fast login for testing TEST 
-        Session.loginUsername("Emma.Smith@gmail.com", 1);
-        goToHome();
-        
+        // Session.loginUsername("Emma.Smith@gmail.com", 1);
+    
     }
 
     @FXML
@@ -102,7 +101,6 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.centerOnScreen();
-        System.out.println("Going to home");
     }
 
     @FXML
@@ -135,12 +133,11 @@ public class Main extends Application {
 
     @FXML
     public void goToProfile() throws IOException {
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/profile.fxml"));
-        // Parent root = loader.load();
-        // Scene scene = new Scene(root);
-        // stage.setScene(scene);
-        // stage.centerOnScreen();
-        System.out.println("Going to profile");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/profile.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.centerOnScreen();
     }
 
     @FXML
@@ -154,11 +151,28 @@ public class Main extends Application {
 
     @FXML
     public void goToWatclist() {
+        try{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/watchlists.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.centerOnScreen();
         System.out.println("Going to watchlist");
+        } catch (IOException e) {
+            e.printStackTrace();}
     }
     @FXML
-    public void goToTutorial() {
-        System.out.println("Going to tutorial");
+    public void goToTutorial()  {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaperTrade/views/tutorials.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            System.out.println("Going to tutorial");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     public void logout(){

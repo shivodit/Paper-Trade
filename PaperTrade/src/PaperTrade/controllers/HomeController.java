@@ -25,27 +25,103 @@ public class HomeController {
     private VBox all_stocks;
     @FXML 
     private ListView<String> watchlist;
+    @FXML
+    private Label tutorial;
 
     public void initialize() {
         // Initialize the controller
         // Add any initialization logic here
         Main.getInstance().setupNavbar(navbar);
         addStocks();
+        addWatchlist();
+        tutorial.setOnMouseClicked(e -> {
+            try {
+                Main.getInstance().goToTutorial();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    public void addWatchlist(){
+        try {
+            ResultSet rs = DatabaseConnection.getInstance().executeQuery("SELECT List_Name FROM Watchlist WHERE User_ID = " + Session.getId() + ";");
+            while(rs.next()){
+                String name = rs.getString("List_Name");
+                watchlist.getItems().add(name);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        
     }
 
     @FXML 
     private void populateAllStocks(){
         // Populate all stocks
         // Add any logic here
+        String query = "SELECT first_entry.Timestamp AS FirstTimestamp, first_entry.Close AS FirstClose, last_entry.Timestamp AS LastTimestamp, last_entry.Close AS LastClose, s.Symbol as symbol, s.Name as name, " +
+        "(last_entry.Close - first_entry.Close)/first_entry.close*100 AS profit " +
+        "FROM stock s " +
+        "JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price WHERE DATE(Timestamp) = (SELECT Date(MAX(Timestamp) - INTERVAL 1 DAY) FROM stock_price) GROUP BY Symbol)) AS first_entry ON s.Symbol = first_entry.Symbol " +
+        "JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price GROUP BY Symbol)) AS last_entry ON s.Symbol = last_entry.Symbol";
+
         try {
-            ResultSet rs = DatabaseConnection.getInstance().executeQuery("SELECT * FROM stock;");
+            ResultSet rs = DatabaseConnection.getInstance().executeQuery(query);
             while(rs.next()){
                 String symbol = rs.getString("symbol");
                 String name = rs.getString("name");
 
-                float price = Session.getMarketPrice(symbol);
-                float profit = Session.get1DayChange(symbol);
+                float price = rs.getFloat("LastClose");
+                float profit = rs.getFloat("profit");
                 all_stocks.getChildren().add(getVBoxStocks(symbol, name, price, profit));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void showTopGainers(){
+        String query = "SELECT first_entry.Timestamp AS FirstTimestamp, first_entry.Close AS FirstClose, last_entry.Timestamp AS LastTimestamp, last_entry.Close AS LastClose, s.Symbol as symbol, s.Name as name, " +
+        "(last_entry.Close - first_entry.Close)/first_entry.close*100 AS profit " +
+        "FROM stock s " +
+        "JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price WHERE DATE(Timestamp) = (SELECT Date(MAX(Timestamp) - INTERVAL 1 DAY) FROM stock_price) GROUP BY Symbol)) AS first_entry ON s.Symbol = first_entry.Symbol " +
+        "JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price GROUP BY Symbol)) AS last_entry ON s.Symbol = last_entry.Symbol ORDER BY profit DESC LIMIT 4";
+
+        try {
+            ResultSet rs = DatabaseConnection.getInstance().executeQuery(query);
+            while(rs.next()){
+                String symbol = rs.getString("symbol");
+                String name = rs.getString("name");
+
+                float price = rs.getFloat("LastClose");
+                float profit = rs.getFloat("profit");
+                top_gainers.getChildren().add(getHBoxStocks(symbol, name, price, profit));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }@FXML
+    private void showTopLosers(){
+        String query = "SELECT first_entry.Timestamp AS FirstTimestamp, first_entry.Close AS FirstClose, last_entry.Timestamp AS LastTimestamp, last_entry.Close AS LastClose, s.Symbol as symbol, s.Name as name, " +
+        "(last_entry.Close - first_entry.Close)/first_entry.close*100 AS profit " +
+        "FROM stock s " +
+        "JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price WHERE DATE(Timestamp) = (SELECT Date(MAX(Timestamp) - INTERVAL 1 DAY) FROM stock_price) GROUP BY Symbol)) AS first_entry ON s.Symbol = first_entry.Symbol " +
+        "JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price GROUP BY Symbol)) AS last_entry ON s.Symbol = last_entry.Symbol ORDER BY profit ASC LIMIT 4";
+
+        try {
+            ResultSet rs = DatabaseConnection.getInstance().executeQuery(query);
+            while(rs.next()){
+                String symbol = rs.getString("symbol");
+                String name = rs.getString("name");
+
+                float price = rs.getFloat("LastClose");
+                float profit = rs.getFloat("profit");
+                top_losers.getChildren().add(getHBoxStocks(symbol, name, price, profit));
             }
         }
         catch(Exception e){
@@ -56,17 +132,9 @@ public class HomeController {
     @FXML
     private void addStocks(){
         // Add stocks to the home page
-        // Add any logic here
-        top_gainers.getChildren().add(getHBoxStocks("AAPL", "Apple Inc.", 123.45f, 2.5f));
-        top_gainers.getChildren().add(getHBoxStocks("GOOGL", "Alphabet Inc.", 1234.56f, 1.5f));
-        top_gainers.getChildren().add(getHBoxStocks("MSFT", "Microsoft Corporation", 234.56f, 3.5f));
-        top_gainers.getChildren().add(getHBoxStocks("AMZN", "Amazon.com Inc.", 3456.78f, 4.5f));
 
-        top_losers.getChildren().add(getHBoxStocks("TSLA", "Tesla Inc.", 456.78f, -2.5f));
-        top_losers.getChildren().add(getHBoxStocks("FB", "Facebook Inc.", 234.56f, -1.5f));
-        top_losers.getChildren().add(getHBoxStocks("NFLX", "Netflix Inc.", 345.67f, -3.5f));
-        top_losers.getChildren().add(getHBoxStocks("NVDA", "NVIDIA Corporation", 456.78f, -4.5f));
-
+        showTopGainers();
+        showTopLosers();
         populateAllStocks();
     }
 
@@ -81,7 +149,7 @@ public class HomeController {
         nameLabel.setFont(new Font("Arial", 16));
         Label priceLabel = new Label("\u20B9" + price);
         priceLabel.setFont(new Font("Arial", 14));
-        Label profitLabel = new Label( profit + "%");
+        Label profitLabel = new Label( String.format("%.2f",profit) + "%");
         if(profit > 0){
             profitLabel.setStyle("-fx-text-fill: green;");
         }else{
@@ -112,7 +180,7 @@ public class HomeController {
         nameLabel.setFont(new Font("Arial", 16));
         Label priceLabel = new Label("\u20B9" + price);
         priceLabel.setFont(new Font("Arial", 14));
-        Label profitLabel = new Label( profit + "%");
+        Label profitLabel = new Label( String.format("%.2f",profit)  + "%");
         if(profit > 0){
             profitLabel.setStyle("-fx-text-fill: green;");
         }else{
