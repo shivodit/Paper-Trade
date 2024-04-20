@@ -222,7 +222,7 @@ public class StockController {
         }
         return "SELECT Symbol, Timestamp, Close " +
         "FROM stock_price " +
-        "WHERE Timestamp >= DATE_SUB(NOW(), INTERVAL " + days + " DAY) " +
+        "WHERE Timestamp >= DATE_SUB((Select MAX(timestamp) from stock_price), INTERVAL " + days + " DAY) " +
         decide +
         "AND Symbol = '" + stock_symbol + "' "+
         "ORDER BY Timestamp asc;";

@@ -1,4 +1,5 @@
 CREATE DATABASE paper_trade;
+use paper_trade;
 CREATE TABLE User (
     User_ID INT NOT NULL AUTO_INCREMENT UNIQUE,
     Name VARCHAR(100) NOT NULL,
@@ -13,7 +14,7 @@ CREATE TABLE User (
 CREATE TABLE Contact (
     User_ID INT NOT NULL,
     Phone_no VARCHAR(20) NOT NULL PRIMARY KEY,
-    FOREIGN KEY (User_ID) REFERENCES User(User_ID)
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON DELETE CASCADE
 );
 -- TODO populate contact
 CREATE TABLE Stock (
@@ -33,8 +34,8 @@ CREATE TABLE StockOrder (
     User_ID INT NOT NULL,
     Symbol VARCHAR(25) NOT NULL,
     PRIMARY KEY (Order_ID),
-    FOREIGN KEY (User_ID) REFERENCES User(User_ID),
-    FOREIGN KEY (Symbol) REFERENCES Stock(Symbol)
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Symbol) REFERENCES Stock(Symbol) ON DELETE CASCADE
 );
 -- TODO populate stock order
 
@@ -46,7 +47,7 @@ CREATE TABLE Stock_Price (
     High DECIMAL(10,3) NOT NULL,
     Low DECIMAL(10,3) NOT NULL,
     PRIMARY KEY (Symbol, Timestamp),
-    FOREIGN KEY (Symbol) REFERENCES Stock(Symbol)
+    FOREIGN KEY (Symbol) REFERENCES Stock(Symbol) ON DELETE CASCADE
 );
 -- TODO populate stock price
 
@@ -55,7 +56,7 @@ CREATE TABLE Watchlist (
     Watchlist_ID INT NOT NULL AUTO_INCREMENT UNIQUE,
     List_Name VARCHAR(50) NOT NULL DEFAULT 'Watchlist',
     PRIMARY KEY (Watchlist_ID),
-    FOREIGN KEY (User_ID) REFERENCES User(User_ID)
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON DELETE CASCADE
 );
 -- TODO populate watchlist
 
@@ -74,8 +75,8 @@ CREATE TABLE Holds (
     Avg_price DECIMAL(10,3) NOT NULL,
     Quantity INT NOT NULL,
     PRIMARY KEY (Symbol, User_ID),
-    FOREIGN KEY (Symbol) REFERENCES Stock(Symbol),
-    FOREIGN KEY (User_ID) REFERENCES User(User_ID)
+    FOREIGN KEY (Symbol) REFERENCES Stock(Symbol) ON DELETE CASCADE,
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON DELETE CASCADE
 );
 -- TODO populate holds
 
@@ -83,8 +84,8 @@ CREATE TABLE Tracks (
     Symbol VARCHAR(25) NOT NULL,
     Watchlist_ID INT NOT NULL,
     PRIMARY KEY (Symbol, Watchlist_ID),
-    FOREIGN KEY (Symbol) REFERENCES Stock(Symbol),
-    FOREIGN KEY (Watchlist_ID) REFERENCES Watchlist(Watchlist_ID)
+    FOREIGN KEY (Symbol) REFERENCES Stock(Symbol) ON DELETE CASCADE,
+    FOREIGN KEY (Watchlist_ID) REFERENCES Watchlist(Watchlist_ID) ON DELETE CASCADE
 );
 -- TODO populate tracks
 
@@ -93,8 +94,8 @@ CREATE TABLE Takes (
     Tutorial_ID INT NOT NULL,
     Rating TINYINT CHECK (Rating >= 0 AND Rating <= 5),
     PRIMARY KEY (User_ID, Tutorial_ID),
-    FOREIGN KEY (User_ID) REFERENCES User(User_ID),
-    FOREIGN KEY (Tutorial_ID) REFERENCES Tutorial(Tutorial_ID)
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Tutorial_ID) REFERENCES Tutorial(Tutorial_ID) ON DELETE CASCADE
 );
 -- TODO populate takes
 

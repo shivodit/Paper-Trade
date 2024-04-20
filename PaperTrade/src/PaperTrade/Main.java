@@ -18,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import PaperTrade.controllers.LoginController;
 import PaperTrade.controllers.RegisterController;
+import PaperTrade.db.DataFetch;
 import PaperTrade.db.DatabaseConnection;
 import PaperTrade.models.Session;
 

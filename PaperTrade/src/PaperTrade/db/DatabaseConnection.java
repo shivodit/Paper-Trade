@@ -11,7 +11,7 @@ public class DatabaseConnection {
     private static final String url = "jdbc:mysql://localhost:3306/paper_trade";
     private static final String user = "root";
     private static final String password = "toor";
-
+    private static final boolean debug = false;
     // JDBC variables for opening and managing connection
     private static DatabaseConnection instance;
     private Connection connection;
@@ -46,6 +46,8 @@ public class DatabaseConnection {
 
     // Method to execute SQL queries like SELECT
     public ResultSet executeQuery(String query) {
+        if (debug==true)
+        System.out.println(query);
         try {
             Statement stmt = connection.createStatement();
             return stmt.executeQuery(query);
@@ -58,11 +60,13 @@ public class DatabaseConnection {
 
     // Method to execute SQL commands like INSERT, UPDATE, DELETE
     public int executeUpdate(String sql) {
+        if (debug==true)
+        System.out.println(sql);
         try {
             Statement stmt = connection.createStatement();
             return stmt.executeUpdate(sql);
         } catch (SQLException e) {
-            System.out.println("Error executing update: " + sql);
+            System.out.println("Error executing update:  " + sql);
             e.printStackTrace();
         }
         return 0;

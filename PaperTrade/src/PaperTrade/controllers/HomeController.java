@@ -190,7 +190,13 @@ public class HomeController {
         VBox.setVgrow(pane, Priority.ALWAYS);
         stock.getChildren().addAll(nameLabel, symboLabel, pane, priceLabel, profitLabel);
 
-
+        stock.setOnMouseClicked(e -> {
+            try {
+                Main.getInstance().openStock(symbol);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
         return stock;
     }
 

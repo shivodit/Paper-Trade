@@ -1,0 +1,155 @@
+Executing query: SELECT first_entry.Timestamp AS FirstTimestamp, first_entry.Close AS FirstClose, last_entry.Timestamp AS LastTimestamp, last_entry.Close AS LastClose, s.Symbol as symbol, s.Name as name, (last_entry.Close - first_entry.Close)/first_entry.close*100 AS profit FROM stock s JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price WHERE DATE(Timestamp) = (SELECT Date(MAX(Timestamp) - INTERVAL 1 DAY) FROM stock_price) GROUP BY Symbol)) AS first_entry ON s.Symbol = first_entry.Symbol JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price GROUP BY Symbol)) AS last_entry ON s.Symbol = last_entry.Symbol ORDER BY profit DESC LIMIT 4
+
+Executing query: SELECT first_entry.Timestamp AS FirstTimestamp, first_entry.Close AS FirstClose, last_entry.Timestamp AS LastTimestamp, last_entry.Close AS LastClose, s.Symbol as symbol, s.Name as name, (last_entry.Close - first_entry.Close)/first_entry.close*100 AS profit FROM stock s JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price WHERE DATE(Timestamp) = (SELECT Date(MAX(Timestamp) - INTERVAL 1 DAY) FROM stock_price) GROUP BY Symbol)) AS first_entry ON s.Symbol = first_entry.Symbol JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price GROUP BY Symbol)) AS last_entry ON s.Symbol = last_entry.Symbol ORDER BY profit ASC LIMIT 4
+
+Executing query: SELECT first_entry.Timestamp AS FirstTimestamp, first_entry.Close AS FirstClose, last_entry.Timestamp AS LastTimestamp, last_entry.Close AS LastClose, s.Symbol as symbol, s.Name as name, (last_entry.Close - first_entry.Close)/first_entry.close*100 AS profit FROM stock s JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price WHERE DATE(Timestamp) = (SELECT Date(MAX(Timestamp) - INTERVAL 1 DAY) FROM stock_price) GROUP BY Symbol)) AS first_entry ON s.Symbol = first_entry.Symbol JOIN (SELECT Symbol, Timestamp, Close FROM stock_price WHERE (Symbol, Timestamp) IN (SELECT Symbol, MAX(Timestamp) AS Timestamp FROM stock_price GROUP BY Symbol)) AS last_entry ON s.Symbol = last_entry.Symbol
+
+Executing query: SELECT List_Name FROM Watchlist WHERE User_ID = 1;
+
+Executing query: SELECT Distinct symbol FROM Holds WHERE user_id = 1;
+
+Executing query: SELECT * FROM Holds WHERE user_id = 1 AND symbol = 'RELIANCE';
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'RELIANCE' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'RELIANCE' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'RELIANCE' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'RELIANCE'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'RELIANCE' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'RELIANCE' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'RELIANCE'))) AS last_entry;
+
+Executing query: SELECT * FROM Holds WHERE user_id = 1 AND symbol = 'TATAPOWER';
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'TATAPOWER' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'TATAPOWER' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'TATAPOWER' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'TATAPOWER'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'TATAPOWER' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'TATAPOWER' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'TATAPOWER'))) AS last_entry;
+
+Executing query: SELECT * FROM Holds WHERE user_id = 1 AND symbol = 'TCS';
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'TCS' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'TCS' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'TCS' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'TCS'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'TCS' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'TCS' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'TCS'))) AS last_entry;
+
+Executing query: SELECT * FROM Holds WHERE user_id = 1 AND symbol = 'WIPRO';
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'WIPRO' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'WIPRO' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'WIPRO' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'WIPRO'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'WIPRO' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'WIPRO' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'WIPRO'))) AS last_entry;
+
+Executing query: Select name from stock where symbol = 'RELIANCE';
+
+Executing query: Select name from stock where symbol = 'TATAPOWER';
+
+Executing query: Select name from stock where symbol = 'TCS';
+
+Executing query: Select name from stock where symbol = 'WIPRO';
+
+Executing query: SELECT Distinct symbol FROM Holds WHERE user_id = 1;
+
+Executing query: SELECT * FROM Holds WHERE user_id = 1 AND symbol = 'RELIANCE';
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'RELIANCE' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'RELIANCE' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'RELIANCE' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'RELIANCE'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'RELIANCE' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'RELIANCE' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'RELIANCE'))) AS last_entry;
+
+Executing query: SELECT * FROM Holds WHERE user_id = 1 AND symbol = 'TATAPOWER';
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'TATAPOWER' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'TATAPOWER' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'TATAPOWER' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'TATAPOWER'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'TATAPOWER' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'TATAPOWER' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'TATAPOWER'))) AS last_entry;
+
+Executing query: SELECT * FROM Holds WHERE user_id = 1 AND symbol = 'TCS';
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'TCS' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'TCS' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'TCS' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'TCS'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'TCS' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'TCS' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'TCS'))) AS last_entry;
+
+Executing query: SELECT * FROM Holds WHERE user_id = 1 AND symbol = 'WIPRO';
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'WIPRO' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'WIPRO' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'WIPRO' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'WIPRO'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'WIPRO' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'WIPRO' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'WIPRO'))) AS last_entry;
+
+Executing query: Select name from stock where symbol = 'RELIANCE';
+
+Executing query: Select name from stock where symbol = 'TATAPOWER';
+
+Executing query: Select name from stock where symbol = 'TCS';
+
+Executing query: Select name from stock where symbol = 'WIPRO';
+
+Executing query: SELECT name FROM stock WHERE symbol = 'RELIANCE'
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'RELIANCE' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'RELIANCE' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'RELIANCE' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'RELIANCE'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'RELIANCE' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'RELIANCE' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'RELIANCE'))) AS last_entry;
+
+Executing query: SELECT Symbol, Timestamp, Close FROM stock_price WHERE Timestamp >= DATE_SUB(NOW(), INTERVAL 40 DAY) AND HOUR(Timestamp)%2 = 0 AND MINUTE(Timestamp) in (0,30) AND Symbol = 'RELIANCE' ORDER BY Timestamp asc;
+
+Executing query: SELECT balance FROM user WHERE email = 'Emma.Smith@gmail.com';
+
+Executing query: SELECT quantity, avg_price FROM holds WHERE user_id = 1 AND symbol = 'RELIANCE';
+
+Executing query: SELECT * FROM stock WHERE symbol LIKE '%adani%' OR name LIKE '%adani%'
+
+Executing query: select * from stock_order where User_ID = 1 ORDER BY order_status asc, time desc;
+
+Executing query: Select * from User where user_id =1
+
+Executing query: select Phone_no from contact where User_ID = '1'
+
+Executing query: Select * from User where user_id =1
+
+Executing query: SELECT List_Name FROM Watchlist WHERE Watchlist.User_ID = 1;
+
+Executing query: SELECT * FROM Watchlist natural join tracks WHERE Watchlist.Watchlist_ID = tracks.Watchlist_ID AND Watchlist.User_ID = 1 AND list_name = 'Tech Titans';
+
+Executing query: SELECT * FROM stock WHERE Symbol= 'RELIANCE';
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'RELIANCE' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'RELIANCE' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'RELIANCE' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'RELIANCE'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'RELIANCE' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'RELIANCE' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'RELIANCE'))) AS last_entry;
+
+Executing query: SELECT * FROM Watchlist natural join tracks WHERE Watchlist.Watchlist_ID = tracks.Watchlist_ID AND Watchlist.User_ID = 1 AND list_name = 'Green Energy Gems';
+
+Executing query: SELECT * FROM Watchlist natural join tracks WHERE Watchlist.Watchlist_ID = tracks.Watchlist_ID AND Watchlist.User_ID = 1 AND list_name = 'Tech Stocks';
+
+Executing query: SELECT * FROM Watchlist natural join tracks WHERE Watchlist.Watchlist_ID = tracks.Watchlist_ID AND Watchlist.User_ID = 1 AND list_name = 'Fashion Forward';
+
+Executing query: SELECT * FROM Watchlist natural join tracks WHERE Watchlist.Watchlist_ID = tracks.Watchlist_ID AND Watchlist.User_ID = 1 AND list_name = 'Foodie Finds';
+
+Executing query: SELECT * FROM Watchlist natural join tracks WHERE Watchlist.Watchlist_ID = tracks.Watchlist_ID AND Watchlist.User_ID = 1 AND list_name = 'Healthcare Heroes';
+
+Executing query: SELECT * FROM Watchlist natural join tracks WHERE Watchlist.Watchlist_ID = tracks.Watchlist_ID AND Watchlist.User_ID = 1 AND list_name = 'Home Decor Delights';
+
+Executing query: SELECT * FROM Watchlist natural join tracks WHERE Watchlist.Watchlist_ID = tracks.Watchlist_ID AND Watchlist.User_ID = 1 AND list_name = 'Crypto Craze';
+
+Executing query: SELECT * FROM Watchlist natural join tracks WHERE Watchlist.Watchlist_ID = tracks.Watchlist_ID AND Watchlist.User_ID = 1 AND list_name = 'Fitness Frenzy';
+
+Executing query: SELECT * FROM stock WHERE Symbol= 'TATAPOWER';
+
+Executing query: Select close, timestamp, symbol from stock_price where symbol = 'TATAPOWER' order by timestamp desc LIMIT 1;
+
+Executing query: SELECT first_entry.Close AS FirstClose, last_entry.Close AS LastClose, (last_entry.Close - first_entry.Close) AS PriceDifference FROM (SELECT Close FROM stock_price WHERE Symbol = 'TATAPOWER' AND Timestamp = (SELECT MIN(Timestamp) FROM stock_price WHERE Symbol = 'TATAPOWER' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'TATAPOWER'))) AS first_entry,(SELECT Close FROM stock_price WHERE Symbol = 'TATAPOWER' AND Timestamp = (SELECT MAX(Timestamp) FROM stock_price WHERE Symbol = 'TATAPOWER' AND DATE(Timestamp) = (SELECT MAX(DATE(Timestamp)) FROM stock_price WHERE Symbol = 'TATAPOWER'))) AS last_entry;
+
+Executing query: SELECT * FROM Watchlist natural join tracks WHERE Watchlist.Watchlist_ID = tracks.Watchlist_ID AND Watchlist.User_ID = 1 AND list_name = 'Travel Treasures';
+
+Going to watchlist
+Tutorials Controller Initialized
+Executing query: SELECT * FROM tutorial
+
+Executing query: SELECT rating FROM takes WHERE tutorial_id = 1 AND user_id = 1
+
+Executing query: SELECT rating FROM takes WHERE tutorial_id = 2 AND user_id = 1
+
+Executing query: SELECT rating FROM takes WHERE tutorial_id = 3 AND user_id = 1
+
+Executing query: SELECT rating FROM takes WHERE tutorial_id = 4 AND user_id = 1
+
+Executing query: SELECT rating FROM takes WHERE tutorial_id = 5 AND user_id = 1
+
+Executing query: SELECT rating FROM takes WHERE tutorial_id = 6 AND user_id = 1
+
+Executing query: SELECT rating FROM takes WHERE tutorial_id = 7 AND user_id = 1
+
+Executing query: SELECT rating FROM takes WHERE tutorial_id = 8 AND user_id = 1
+
+Executing query: SELECT rating FROM takes WHERE tutorial_id = 9 AND user_id = 1
+
+Executing query: SELECT rating FROM takes WHERE tutorial_id = 10 AND user_id = 1

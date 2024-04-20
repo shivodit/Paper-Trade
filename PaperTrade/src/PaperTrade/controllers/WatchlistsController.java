@@ -84,7 +84,7 @@ public class WatchlistsController {
         DatabaseConnection db = DatabaseConnection.getInstance();
         db.executeUpdate("DELETE FROM tracks WHERE Watchlist_ID = (SELECT Watchlist_ID FROM Watchlist WHERE List_Name = '"+ focusedTab.getText() + "' AND User_ID = "+ Session.getId()+") ;");
         db.executeUpdate("DELETE FROM Watchlist WHERE List_Name = '"+ focusedTab.getText() + "' AND User_ID = "+ Session.getId() +";");watchlists.getTabs().remove(focusedTab);
-        display();
+        watchlists.getTabs().remove(focusedTab);
     };
 
     public Tab createTab(String name){

@@ -147,6 +147,17 @@ public class RegisterController {
             query = "INSERT INTO contact (user_id, Phone_no) VALUES ((SELECT user_id FROM user WHERE email = '" + email + "'), '" + tf.getText() + "')";
             db.executeUpdate(query);
         }
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("User Registered");
+        alert.setHeaderText("User registered successfully");
+        alert.setContentText("Please login to continue");
+        alert.showAndWait();
+        try {
+            Main.getInstance().goToLogin();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         System.out.println("User registered successfully");
     }
 

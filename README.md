@@ -17,11 +17,29 @@ Paper Trade is a Java application that simulates stock trading, allowing users t
 - MySQL
 - API for stock data retrieval (e.g., Alpha Vantage, Yahoo Finance)
 
-## Setup (TODO : INCOMPLETE)
+## Setup
 1. Clone the repository: `git clone https://github.com/shivodit/Paper-Trade.git`
 2. Set up MySQL and create a database for the application called paper_trade 
-3. Configure the database connection in the application (Edit the DatabaseConnection class in src/PaperTrade/db to have your correct credentials
+3. Configure the database connection in the application (Edit the DatabaseConnection class in src/PaperTrade/db to have your correct credentials)
 4. Run the application and start trading!
+5. {
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "main.PaperTrade.Main",
+            "vmArgs": "--module-path C:\\Users\\vishn\\Documents\\cc\\dbs_project\\PaperTrade\\lib --add-modules javafx.controls,javafx.fxml -Dprism.order=sw",
+        }
+    ]
+}
+
+use the above given vscode launch configuration to run the app with these dependencies 
+replace module path with your own --module-path C:\\Users\\vishn\\Documents\\cc\\dbs_project\\PaperTrade\\lib
+for ex: --module-path C:\\PaperTrade\\lib
+
+or provide the appropriate vm args with your preferred choice of launch method
 
 ## Usage
 1. Register an account or log in if you already have one
